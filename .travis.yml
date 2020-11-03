@@ -10,6 +10,7 @@ matrix:
    - env: BUILD_TYPE=RelWithDebInfo
      script:
 <<<<<<< HEAD
+<<<<<<< HEAD
       - docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
       - |
         travis_wait 120 sleep infinity &
@@ -23,6 +24,9 @@ matrix:
       - cd build
       - cmake --build . --target test
 >>>>>>> Add tests
+=======
+      - docker run -t verify-c-common /bin/bash -c "cd build && ninja test"
+>>>>>>> edit travis file
 services:
   - docker
 
