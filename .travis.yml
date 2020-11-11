@@ -4,7 +4,7 @@ os: linux
 cache: apt
 branches:
   only:
-    - master
+    - travis_continue
 matrix:
   include:
    - env: BUILD_TYPE=RelWithDebInfo
@@ -12,6 +12,9 @@ matrix:
       - docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
       - docker run -t verify-c-common /bin/bash -c "cd build && ninja test"
       - docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--vac" ninja test'
+      - docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--cex" ninja test'
+      - docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2" ninja test'
+      - docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--vac --horn-bmc-solver=smt-y2" ninja test'
 services:
   - docker
 
