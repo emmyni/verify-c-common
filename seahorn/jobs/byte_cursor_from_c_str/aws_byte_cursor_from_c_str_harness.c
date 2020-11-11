@@ -2,11 +2,12 @@
  *
  */
 
-#include <seahorn/seahorn.h>
 #include <aws/common/byte_buf.h>
 #include <byte_buf_helper.h>
-#include <utils.h>
+#include <string_helper.h>
 #include <proof_allocators.h>
+#include <seahorn/seahorn.h>
+#include <utils.h>
 
 int main() {
     /* parameter */

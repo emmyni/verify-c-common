@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.18.4)
 project(verify-c-common C CXX)
 
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake/llvmir)
@@ -29,7 +29,7 @@ set(LLVMIR_OPT ${SEA_OPT})
 set(AWS_C_COMMON_ROOT ${CMAKE_CURRENT_SOURCE_DIR}/aws-c-common)
 
 if (SEA_ENABLE_FUZZ)
-  add_subdirectory(${AWS_C_COMMON_ROOT})
+  find_package(aws-c-common REQUIRED)
 endif()
 
 set(SEA_LIB ${CMAKE_CURRENT_SOURCE_DIR}/seahorn/lib)
@@ -38,9 +38,6 @@ configure_file(verify.py.in verify @ONLY)
 set(VERIFY_SCRIPT ${CMAKE_CURRENT_BINARY_DIR}/verify-c-common.sh)
 set(VERIFY_CMD ${CMAKE_CURRENT_BINARY_DIR}/verify)
 
-set(MAX_LINKED_LIST_ITEM_ALLOCATION_SIZE 5)
-set(MAX_BUFFER_SIZE 10)
-set(MAX_STRING_LEN 16)
 include_directories(seahorn/include)
 include_directories(aws-c-common/include)
 #include_directories(aws-c-common/build/generated/include)
