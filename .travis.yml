@@ -8,18 +8,17 @@ branches:
 
 env: BUILD_TYPE=RelWithDebInfo
 
-script: docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
-
 jobs:
   include:
-   - script: docker run -t verify-c-common /bin/bash -c "cd build && ninja test"
-   - env: 
-      - VERIFY_FLAGS="--vac"
-      - VERIFY_FLAGS="--cex"
-      - VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2"
-      - VERIFY_FLAGS="--vac --horn-bmc-solver=smt-y2"
-      
-script: docker run -t verify-c-common /bin/bash -c cd build && env VERIFY_FLAGS=$VERIFY_FLAGS
+   - script: 
+      - docker run -t verify-c-common /bin/bash -c "cd build && ninja test"
+   - env: VERIFY_FLAGS="--vac"
+   - env: VERIFY_FLAGS="--cex"
+   - env: VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2"
+   - env: VERIFY_FLAGS="--vac --horn-bmc-solver=smt-y2"
+script: 
+- docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
+- docker run -t verify-c-common /bin/bash -c cd build && env VERIFY_FLAGS=$VERIFY_FLAGS
 
 services:
   - docker
