@@ -15,9 +15,16 @@ jobs:
    - env: VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2"
    - env: VERIFY_FLAGS="--vac --horn-bmc-solver=smt-y2"
    - env: VERIFY_FLAGS=""
+  allow_failures:
+   - env: VERIFY_FLAGS="--cex"
+   - env: VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2"
+  
+
 script: 
 - docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
-- docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=$VERIFY_FLAGS ninja test"
+- |
+  travis_wait 120 sleep infinity &
+  docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=$VERIFY_FLAGS ninja test"
 
 services:
   - docker
