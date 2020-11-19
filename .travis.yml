@@ -10,6 +10,7 @@ env: BUILD_TYPE=RelWithDebInfo
 
 jobs:
   include:
+<<<<<<< HEAD
    - env: VERIFY_FLAGS="--vac"
    - env: VERIFY_FLAGS="--cex"
    - env: VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2"
@@ -26,6 +27,17 @@ script:
   travis_wait 120 sleep infinity &
   docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=$VERIFY_FLAGS ninja test"
 
+=======
+   - env: BUILD_TYPE=RelWithDebInfo
+     script:
+      - docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
+      - |
+        travis_wait 120 sleep infinity &
+        docker run -t verify-c-common /bin/bash -c "cd build && ninja test"
+      - |
+        travis_wait 120 sleep infinity &
+        docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--vac" ninja test'
+>>>>>>> e899fe22d45242a269785107bce842ec7259d711
 services:
   - docker
 
