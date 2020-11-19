@@ -8,27 +8,16 @@ branches:
 
 env: BUILD_TYPE=RelWithDebInfo
 
-matrix:
+jobs:
   include:
-   - env: BUILD_TYPE=RelWithDebInfo
-     script:
-      - docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
-      - |
-        travis_wait 120 sleep infinity &
-        docker run -t verify-c-common /bin/bash -c "cd build && ninja test"
-      - |
-        travis_wait 120 sleep infinity &
-        docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--vac" ninja test'
-      - |
-        travis_wait 120 sleep infinity &
-        docker run -t verify-c-common /bin/bash -c "cd build && VERIFY_FLAGS="--cex" ninja test"
-      - |
-        travis_wait 120 sleep infinity &
-        docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2" ninja test'
-      - |
-        travis_wait 120 sleep infinity &
-        docker run -t verify-c-common /bin/bash -c 'cd build && env VERIFY_FLAGS="--vac --horn-bmc-solver=smt-y2" ninja test'
-
+   - env: VERIFY_FLAGS="--vac"
+   - env: VERIFY_FLAGS="--cex"
+   - env: VERIFY_FLAGS="--cex --horn-bmc-solver=smt-y2"
+   - env: VERIFY_FLAGS="--vac --horn-bmc-solver=smt-y2"
+   - env: VERIFY_FLAGS=""
+script: 
+- docker build -t verify-c-common -f docker/verify-c-common.Dockerfile .
+- docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=$VERIFY_FLAGS ninja test"
 
 services:
   - docker
