@@ -9,6 +9,7 @@ jobs:
       fail-fast: false
       matrix:
         verify_flag: ['\"\"', '\"--vac\"', '\"--vac --horn-bmc-solver=smt-y2\"', '\"--cex\"', '\"--cex --horn-bmc-solver=smt-y2\"']
+        exclude_tests: ["", '\"(ring_buffer_clean_up_unsat_test)\"']
 
     steps:
       - name: Checkout 
@@ -26,7 +27,7 @@ jobs:
         if: matrix.verify_flag == '\"\"'
         
       - name: Run vac Tests 
-        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E \"(ring_buffer_clean_up_unsat_test)\""
+        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.exclude_tests}}"
         if: matrix.verify_flag == '\"--vac\"' || matrix.verify_flag == '\"--vac --horn-bmc-solver=smt-y2\"'
         
       - name: Run cex Tests 
