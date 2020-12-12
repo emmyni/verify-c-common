@@ -9,8 +9,18 @@ jobs:
       fail-fast: false
       matrix:
         verify_flag: ['\"\"', '\"--vac\"', '\"--vac --horn-bmc-solver=smt-y2\"', '\"--cex\"', '\"--cex --horn-bmc-solver=smt-y2\"']
-        exclude_tests: ["", '\"(ring_buffer_clean_up_unsat_test)\"']
-
+        include:
+          - verify_flag: '\"\"'
+            EXCLUDE_TESTS: \"\"'
+          - verify_flag: '\"--vac\"'
+            EXCLUDE_TESTS: '\"(ring_buffer_clean_up_unsat_test)\"'
+          - verify_flag: '\"--vac --horn-bmc-solver=smt-y2\"'
+            EXCLUDE_TESTS: '\"\"'
+          - verify_flag: '\"--cex\"'
+            EXCLUDE_TESTS: '\"(byte_buf_write_from_whole_string_unsat_test|linked_list_pop_back_unsat_test|linked_list_swap_contents_unsat_test|string_eq_unsat_test|ring_buffer_clean_up_unsat_test|string_compare_unsat_test)\"'
+          - verify_flag: '\"--cex --horn-bmc-solver=smt-y2\"'
+            EXCLUDE_TESTS: '\"\"'
+       
     steps:
       - name: Checkout 
         uses: actions/checkout@master
@@ -27,10 +37,10 @@ jobs:
         if: matrix.verify_flag == '\"\"'
         
       - name: Run vac Tests 
-        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.exclude_tests}}"
+        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.EXCLUDE_TESTS}}"
         if: matrix.verify_flag == '\"--vac\"' || matrix.verify_flag == '\"--vac --horn-bmc-solver=smt-y2\"'
         
       - name: Run cex Tests 
-        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E \"(byte_buf_write_from_whole_string_unsat_test|linked_list_pop_back_unsat_test|linked_list_swap_contents_unsat_test|string_eq_unsat_test|ring_buffer_clean_up_unsat_test|string_compare_unsat_test)\""
+        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.EXCLUDE_TESTS}}"
         if: matrix.verify_flag == '\"--cex\"' || matrix.verify_flag == '\"--cex --horn-bmc-solver=smt-y2\"'
         
