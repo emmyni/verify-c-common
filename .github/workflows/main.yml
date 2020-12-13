@@ -11,7 +11,7 @@ jobs:
         verify_flag: ['\"\"', '\"--vac\"', '\"--vac --horn-bmc-solver=smt-y2\"', '\"--cex\"', '\"--cex --horn-bmc-solver=smt-y2\"']
         include:
           - verify_flag: '\"\"'
-            EXCLUDE_TESTS: \"\"'
+            EXCLUDE_TESTS: '\"\"'
           - verify_flag: '\"--vac\"'
             EXCLUDE_TESTS: '\"(ring_buffer_clean_up_unsat_test)\"'
           - verify_flag: '\"--vac --horn-bmc-solver=smt-y2\"'
