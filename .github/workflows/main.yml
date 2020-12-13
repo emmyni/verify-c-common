@@ -33,14 +33,5 @@ jobs:
         run: echo "::set-output name=num_cores::$(nproc --all)"
         
       - name: Run Tests 
-        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000"
-        if: matrix.verify_flag == '\"\"'
-        
-      - name: Run vac Tests 
         run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.EXCLUDE_TESTS}}"
-        if: matrix.verify_flag == '\"--vac\"' || matrix.verify_flag == '\"--vac --horn-bmc-solver=smt-y2\"'
-        
-      - name: Run cex Tests 
-        run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.EXCLUDE_TESTS}}"
-        if: matrix.verify_flag == '\"--cex\"' || matrix.verify_flag == '\"--cex --horn-bmc-solver=smt-y2\"'
-        
+  
