@@ -27,11 +27,11 @@ jobs:
 
       - name: Get type
         id: type
-        run: echo ::set-output name=type::$(cut ${{ matrix.verify_flag }} | cut -d -- -f 2)
+        run: echo ::set-output name=type::${${{ matrix.verify_flag }}: 4: 3})
 
       - name: Get exclude test
         id: exclude_files
-        run: echo ::set-output name=exclude_files::$(cat "${{steps.cores.outputs.type}}.txt")
+        run: echo ::set-output name=exclude_files::$(cat "blacklist.${{steps.cores.outputs.type}}.txt")
 
       - name: Test output
         run: echo ${{ steps.vars.output.exclude_files }}
