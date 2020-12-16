@@ -27,7 +27,7 @@ jobs:
 
       - name: Get type
         id: type
-        run: echo ::set-output name=type::$(cut ${{ matrix.verify_flag }} | -d-- -b -3)
+        run: echo ::set-output name=type::$(cut ${{ matrix.verify_flag }} | cut -d -- -f 2)
 
       - name: Get exclude test
         id: exclude_files
