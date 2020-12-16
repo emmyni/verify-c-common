@@ -27,7 +27,7 @@ jobs:
 
       - name: Get type
         id: type
-        if: endsWith( '--cex', 'y2')
+        if: endsWith( ${{ matrix.verify_flag }}::-2, 'y2')
         run: echo ::set-output name=type::$(echo ${{ matrix.verify_flag }} | cut -c4-6)
        
       - name: Get exclude test
