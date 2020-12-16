@@ -29,7 +29,7 @@ jobs:
         id: type
         if: endsWith( ${{ matrix.verify_flag }}, 'y2\"')
         run: |
-          echo endsWith( ${{ matrix.verify_flag }}, 'y2\"')
+          echo endsWith( "${{ matrix.verify_flag }}", 'y2\"')
           echo ::set-output name=type::$(echo ${{ matrix.verify_flag }} | cut -c4-6)
        
       - name: Get exclude test
