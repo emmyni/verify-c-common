@@ -28,7 +28,9 @@ jobs:
       - name: Get type
         id: type
         if: endsWith( ${{ matrix.verify_flag }}::-2, 'y2')
-        run: echo ::set-output name=type::$(echo ${{ matrix.verify_flag }} | cut -c4-6)
+        run: |
+        echo ${{ matrix.verify_flag }}::-2
+        echo ::set-output name=type::$(echo ${{ matrix.verify_flag }} | cut -c4-6)
        
       - name: Get exclude test
         id: exclude_files
