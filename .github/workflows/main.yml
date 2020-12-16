@@ -31,6 +31,13 @@ jobs:
       - name: Get number of Cores
         id: cores
         run: echo "::set-output name=num_cores::$(nproc --all)"
+
+      - name: Get exclude test
+        id: exclude_files
+        run: echo ::set-output name=exclude_files::$(cat "${{ matrix.verify_flag }}.txt")
+
+      - name: Test output
+        run: echo ${{ steps.vars.output.exclude_files }}
         
       - name: Run Tests 
         run: docker run -t verify-c-common /bin/bash -c "cd build && env VERIFY_FLAGS=${{ matrix.verify_flag }} ctest -j ${{steps.cores.outputs.num_cores}} --timeout 2000 -E ${{matrix.EXCLUDE_TESTS}}"
