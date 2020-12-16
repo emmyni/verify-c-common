@@ -31,7 +31,7 @@ jobs:
 
       - name: Get exclude test
         id: exclude_files
-        run: echo ::set-output name=exclude_files::$(cat ".github/workflows/blacklist.${{steps.type.outputs.type}}.txt")
+        run: echo ::set-output name=exclude_files::$(cat ".github/workflows/blacklist.${{steps.type.outputs.type}}.txt" | tr '\n' '|')
 
       - name: Test output
         run: echo ${{ steps.exclude_files.outputs.exclude_files }}

@@ -1,1 +1,1 @@
-'\"--vac --horn-bmc-solver=smt-y2\"'
+ring_buffer_clean_up_unsat_test
