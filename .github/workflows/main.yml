@@ -31,7 +31,7 @@ jobs:
 
       - name: Get exclude test
         id: exclude_files
-        run: echo ::set-output name=exclude_files::$(cat "blacklist.${{steps.cores.outputs.type}}.txt")
+        run: echo ::set-output name=exclude_files::$(cat "blacklist.${{steps.cores.output.type}}.txt")
 
       - name: Test output
         run: echo ${{ steps.vars.output.exclude_files }}
