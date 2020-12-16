@@ -27,7 +27,7 @@ jobs:
 
       - name: Get type
         id: type
-        if: startsWith('Hello world', 'He') == false
+        if: endsWith( '--cex', 'y2')
         run: echo ::set-output name=type::$(echo ${{ matrix.verify_flag }} | cut -c4-6)
        
       - name: Get exclude test
